@@ -14,17 +14,18 @@ import java.util.*
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment= WebEnvironment.RANDOM_PORT)
-class ApplicationTests(@Autowired private val restTemplate: TestRestTemplate, @Autowired private val customerRepository: CustomerRepository) {
+class ApplicationTests(@Autowired private val restTemplate: TestRestTemplate,
+					   @Autowired private val customerRepository: CustomerRepository) {
 
 	@Test
 	fun findAll() {
-		val content = """[{"firstName":"Jack","lastName":"Bauer","id":1},{"firstName":"Chloe","lastName":"O'Brian","id":2},{"firstName":"Kim","lastName":"Bauer","id":3},{"firstName":"David","lastName":"Palmer","id":4},{"firstName":"Michelle","lastName":"Dessler","id":5}]"""
+		val content = """[{"age":12,"firstName":"Jack","lastName":"Bauer","id":1},{"age":13,"firstName":"Chloe","lastName":"O'Brian","id":2},{"age":12,"firstName":"Kim","lastName":"Bauer","id":3},{"age":15,"firstName":"David","lastName":"Palmer","id":4},{"age":20,"firstName":"Michelle","lastName":"Dessler","id":5}]"""
 		assertEquals(content, restTemplate.getForObject<String>("/customers"))
 	}
 
 	@Test
 	fun findByAge12(){
-		assertTrue(customerRepository.findByAge(12).toList().size > 0, "Custom exists")
+		assertTrue(customerRepository.findByAge(12).toList().isNotEmpty(), "Custom exists")
 	}
 
 }
